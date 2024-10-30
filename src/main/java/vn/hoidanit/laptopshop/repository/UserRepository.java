@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // insert into User value ()
     User save(User hoidanit);
 
-    List<User> findByEmail(String email);
+    List<User> findOneByEmail(String email);
 }
