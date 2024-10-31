@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +23,13 @@ public class UserController {
 
     private final UserService userService;
     private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UploadService uploadService) {
+    public UserController(UserService userService, UploadService uploadService,
+            PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping("/")
@@ -62,14 +66,19 @@ public class UserController {
     }
 
     // POST
-    // @ModelAttribute("newUser"): get data (newUser) from view
+    // @ModelAtribute("newUser"): get data (newUser) from view
     @PostMapping(value = "/admin/user/create")
     public String createUserPage(Model model, @ModelAttribute("newUser") User hoidanit,
             @RequestParam("hoidanitFile") MultipartFile file) {
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(hoidanit.getPassword());
 
-        // this.userService.handleSaveUser(hoidanit);
+        hoidanit.setAvatar(avatar);
+        hoidanit.setPassword(hashPassword);
+        hoidanit.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
+
+        this.userService.handleSaveUser(hoidanit);
         return "redirect:/admin/user";
     }
 
@@ -82,7 +91,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/user/update", method = RequestMethod.POST)
-    public String postUpdateUser(Model model, @ModelAttribute("userUpdated") User userUpdated) {
+    public String postUpdateUser(Model model, @ModelAttribute("oldUser") User userUpdated) {
 
         User oldUser = this.userService.getUserById(userUpdated.getId());
         if (oldUser != null) {
