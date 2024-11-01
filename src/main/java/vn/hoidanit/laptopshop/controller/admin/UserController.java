@@ -45,7 +45,7 @@ public class UserController {
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
         model.addAttribute("users", users);
-        return "admin/user/table-user";
+        return "admin/user/show";
     }
 
     // View
@@ -54,7 +54,7 @@ public class UserController {
         User user = this.userService.getUserById(id);
         model.addAttribute("id", id);
         model.addAttribute("user", user);
-        return "admin/user/show";
+        return "admin/user/detail";
     }
 
     // GET
@@ -101,7 +101,7 @@ public class UserController {
 
             this.userService.handleSaveUser(oldUser);
         }
-        return "redirect:/admin/user" + userUpdated.getId();
+        return "redirect:/admin/user/" + userUpdated.getId();
     }
 
     // Delete
