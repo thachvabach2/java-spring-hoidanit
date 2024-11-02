@@ -13,18 +13,6 @@
                 <title>Table Products - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-                <script>
-                    $(document).ready(() => {
-                        const avatarFile = $("#avatarFile"); avatarFile.change(function (e) {
-                            const imgURL = URL.createObjectURL(e.target.files[0]);
-                            $("#avatarPreview").attr("src", imgURL);
-                            $("#avatarPreview").css({ "display": "block" });
-                        });
-                    });
-                </script>
-
-
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
 
@@ -61,21 +49,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- <c:forEach var="user" items="${users}">
+                                                    <c:forEach var="product" items="${products}">
                                                         <tr>
-                                                            <th>${user.id}</th>
-                                                            <td>${user.email}</td>
-                                                            <td>${user.fullName}</td>
+                                                            <td class="align-middle">${product.id}</td>
+                                                            <td class="align-middle">${product.name}</td>
+                                                            <td class="align-middle">${product.price}</td>
+                                                            <td class="align-middle">${product.factory}</td>
                                                             <td>
-                                                                <a href="/admin/user/${user.id}"
+                                                                <a href="/admin/product/${product.id}"
                                                                     class="btn btn-success">View</a>
-                                                                <a href="/admin/user/update/${user.id}"
+                                                                <a href="/admin/product/update/${product.id}"
+                                                                    type="button"
                                                                     class="btn btn-warning mx-2">Update</a>
-                                                                <a href="/admin/user/delete/${user.id}"
-                                                                    class="btn btn-danger">Delete</a>
+                                                                <a href="/admin/product/delete/${product.id}"
+                                                                    type="button" class="btn btn-danger">Delete</a>
                                                             </td>
                                                         </tr>
-                                                    </c:forEach> -->
+                                                    </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
