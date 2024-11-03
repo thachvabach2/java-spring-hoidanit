@@ -59,10 +59,9 @@
                                                                 <a href="/admin/product/${product.id}"
                                                                     class="btn btn-success">View</a>
                                                                 <a href="/admin/product/update/${product.id}"
-                                                                    type="button"
                                                                     class="btn btn-warning mx-2">Update</a>
                                                                 <a href="/admin/product/delete/${product.id}"
-                                                                    type="button" class="btn btn-danger">Delete</a>
+                                                                    class="btn btn-danger">Delete</a>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>

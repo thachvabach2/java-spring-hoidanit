@@ -16,14 +16,30 @@
 
                 <script>
                     $(document).ready(() => {
-                        const imageProductFile = $("#imageProductFile"); imageProductFile.change(function (e) {
+                        const imageProductFile = $("#imageProductFile");
+                        const databaseIamge = "${oldProduct.image}"
+
+
+                        // Check ảnh trong database (databaseIamge) và server (serverUrlImage) đều tồn tại thì mới hiển thị ra view
+                        const serverUrlImage = "/images/product/" + databaseIamge;
+                        $('#productImagePreview').load(serverUrlImage, function (response, status, xhr) {
+                            if (status != "error" && databaseIamge) {
+                                $("#productImagePreview").attr("src", serverUrlImage);
+                                $("#productImagePreview").css({ "display": "block" });
+                            }
+                            else {
+                                console.log('upload fail')
+                            }
+                        });
+
+
+                        imageProductFile.change(function (e) {
                             const imgURL = URL.createObjectURL(e.target.files[0]);
                             $("#productImagePreview").attr("src", imgURL);
                             $("#productImagePreview").css({ "display": "block" });
                         });
                     });
                 </script>
-
 
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -39,15 +55,19 @@
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item"><a href="/admin/product">Products</a></li>
-                                    <li class="breadcrumb-item active">Create Products</li>
+                                    <li class="breadcrumb-item active">Update Product</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Create a product</h3>
+                                            <h3>Update a product</h3>
                                             <hr />
-                                            <form:form method="post" action="/admin/product/create"
-                                                modelAttribute="newProduct" class="row" enctype="multipart/form-data">
+                                            <form:form method="post" action="/admin/product/update"
+                                                modelAttribute="oldProduct" class="row" enctype="multipart/form-data">
+                                                <div class="mb-3 col-12" style="display: none;">
+                                                    <label class="form-label">Id:</label>
+                                                    <form:input type="text" class="form-control" path="id" />
+                                                </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <c:set var="errorName">
                                                         <form:errors path="name" cssClass="invalid-feedback" />
@@ -132,15 +152,16 @@
                                                 </div>
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 250px; display: none;" alt="image preview"
-                                                        id="productImagePreview" />
+                                                        id="productImagePreview">
                                                 </div>
 
                                                 <div class="col-12 mb-5">
-                                                    <button type="submit" class="btn btn-primary">Create</button>
+                                                    <button type="submit" class="btn btn-warning">Update</button>
                                                 </div>
                                             </form:form>
 
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
