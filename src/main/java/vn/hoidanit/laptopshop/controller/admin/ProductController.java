@@ -85,6 +85,7 @@ public class ProductController {
             BindingResult bindingResult,
             @RequestParam("hoidanitProductFile") MultipartFile file) {
 
+        // validate
         if (bindingResult.hasErrors()) {
             return "admin/product/update";
         }
