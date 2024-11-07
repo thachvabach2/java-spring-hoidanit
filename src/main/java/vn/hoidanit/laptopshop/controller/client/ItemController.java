@@ -36,7 +36,7 @@ public class ItemController {
     }
 
     @PostMapping("/add-product-to-cart/{id}")
-    public String addProdcutToCart(@PathVariable long id, HttpServletRequest request) {
+    public String addProductToCart(@PathVariable long id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
         long productId = id;
@@ -68,6 +68,18 @@ public class ItemController {
         model.addAttribute("totalPrice", totalPrice);
 
         return "client/cart/show";
+    }
+
+    @PostMapping("/delete-cart-product/{id}")
+    public String postDeleteCartDetail(@PathVariable long id, HttpServletRequest request) {
+        // System.out.println(">>>>>> Id cartdetail delete: " + cartDetailId);
+        HttpSession session = request.getSession(false);
+
+        long cartDetailId = id;
+
+        this.productService.handleRemoveCardDetail(cartDetailId, session);
+
+        return "redirect:/cart";
     }
 
 }
