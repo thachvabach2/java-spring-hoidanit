@@ -103,7 +103,9 @@
                                                     </div>
                                                     <input type="text"
                                                         class="form-control form-control-sm text-center border-0"
-                                                        value="${cartDetail.quantity}">
+                                                        value="${cartDetail.quantity}"
+                                                        data-cart-detail-id="${cartDetail.id}"
+                                                        data-cart-detail-price="${cartDetail.price}">
                                                     <div class="input-group-btn">
                                                         <button
                                                             class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -113,7 +115,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="mb-0 mt-4">
+                                                <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
                                                     <fmt:formatNumber type="number"
                                                         value="${cartDetail.price * cartDetail.quantity}" /> đ
                                                 </p>
@@ -141,7 +143,7 @@
                                         </h1>
                                         <div class="d-flex justify-content-between mb-4">
                                             <h5 class="mb-0 me-4">Tạm tính:</h5>
-                                            <p class="mb-0">
+                                            <p class="mb-0" data-cart-total-price="${totalPrice}">
                                                 <fmt:formatNumber type="number" value="${totalPrice}" /> đ
                                             </p>
                                         </div>
@@ -154,7 +156,9 @@
                                     </div>
                                     <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                         <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                                        <p class="mb-0 pe-4">123,000,000 đ</p>
+                                        <p class="mb-0 pe-4" data-cart-total-price="${totalPrice}">
+                                            <fmt:formatNumber type="number" value="${totalPrice}" /> đ
+                                        </p>
                                     </div>
                                     <button
                                         class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
