@@ -176,7 +176,7 @@
 
 
                                             <form:form method="post" action="/confirm-checkout" modelAttribute="cart">
-                                                <div style="display: block;">
+                                                <div style="display: none;">
                                                     <c:forEach var="cartDetail" items="${cart.cartDetails}"
                                                         varStatus="status">
                                                         <div class="mb-3">
