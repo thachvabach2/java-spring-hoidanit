@@ -193,12 +193,8 @@
                                         </div>
                                     </div>
                                 </form:form>
-
+                            </c:if>
                         </div>
-
-
-                        </c:if>
-                    </div>
                     </div>
                     <!-- Single Product End -->
 

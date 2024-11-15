@@ -148,28 +148,36 @@ public class ProductService {
             HttpSession session,
             String receiverName, String receiverAddress, String receiverPhone) {
 
-        // Create Order
-        Order order = new Order();
-        order.setUser(user);
-        order.setReceiverName(receiverName);
-        order.setReceiverAddress(receiverAddress);
-        order.setReceiverPhone(receiverPhone);
-        this.orderRepository.save(order);
-
-        // Create OrderDetail
-
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
         if (cart != null) {
             List<CartDetail> cartDetails = cart.getCartDetails();
 
             if (cartDetails != null) {
+
+                // Create Order
+                Order order = new Order();
+                order.setUser(user);
+                order.setReceiverName(receiverName);
+                order.setReceiverAddress(receiverAddress);
+                order.setReceiverPhone(receiverPhone);
+                order.setStatus("PENDING");
+
+                double totalPrice = 0;
+                for (CartDetail cd : cartDetails) {
+                    totalPrice += cd.getPrice() * cd.getQuantity();
+                }
+                order.setTotalPrice(totalPrice);
+                order = this.orderRepository.save(order);
+
+                // Create OrderDetail
                 for (CartDetail cd : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
                     orderDetail.setProduct(cd.getProduct());
                     orderDetail.setPrice(cd.getPrice());
                     orderDetail.setQuantity(cd.getQuantity());
+
                     this.orderDetailRepository.save(orderDetail);
                 }
 
