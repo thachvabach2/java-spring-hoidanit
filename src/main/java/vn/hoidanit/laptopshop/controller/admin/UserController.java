@@ -1,7 +1,11 @@
 package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,13 +49,32 @@ public class UserController {
     }
 
     @RequestMapping("/admin/user")
-    public String getUserPage(Model model) {
-        List<User> users = this.userService.getAllUsers();
+    public String getUserPage(Model model, @RequestParam("page") Optional<String> currentPageOptional) {
+        int currentPage = 1;
+        try {
+            if (currentPageOptional.isPresent()) {
+                // convert String to int
+                currentPage = Integer.parseInt(currentPageOptional.get());
+            } else {
+                // user không truyền ?page=... thì k cần làm gì cả vì currentPage mặc định = 1
+                // currentPage = 1
+            }
+        } catch (Exception e) {
+            // currentPage = 1
+            // TODO: handle exception
+        }
+
+        Pageable pageable = PageRequest.of(currentPage - 1, 2);
+        Page<User> usersPage = this.userService.getAllUsers(pageable);
+        List<User> users = usersPage.getContent();
+
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", usersPage.getTotalPages());
         return "admin/user/show";
     }
 
-    // View
+    // View Detail
     @RequestMapping("/admin/user/{id}")
     public String getUserDetailPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);

@@ -71,6 +71,36 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item">
+                                            <a class="page-link ${1 == currentPage ? 'disabled' : ''}"
+                                                href="/admin/order?page=${currentPage-1}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        <c:forEach begin="0" end="${totalPages-1}" varStatus="loop">
+                                            <li class="page-item">
+                                                <a class="page-link ${(loop.index+1) == currentPage ? 'active' : ''}"
+                                                    href="/admin/order?page=${loop.index + 1}">
+                                                    ${loop.index + 1}
+                                                </a>
+                                            </li>
+
+                                        </c:forEach>
+
+                                        <li class="page-item">
+                                            <a class="page-link ${totalPages == currentPage ? 'disabled' : ''}"
+                                                href="/admin/order?page=${currentPage+1}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </main>
                         <jsp:include page="../layout/footer.jsp" />
