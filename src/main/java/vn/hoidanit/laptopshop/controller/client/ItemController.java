@@ -1,6 +1,7 @@
 package vn.hoidanit.laptopshop.controller.client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -157,7 +158,11 @@ public class ItemController {
     @GetMapping("/products")
     public String getProductsPage(Model model,
             @RequestParam("page") Optional<String> pageOptional,
-            @RequestParam("name") Optional<String> nameOptional) {
+            @RequestParam("name") Optional<String> nameOptional,
+            @RequestParam("min-price") Optional<String> minPriceOptional,
+            @RequestParam("max-price") Optional<String> maxPriceOptional,
+            @RequestParam("factory") Optional<String> factoryOptional,
+            @RequestParam("price") Optional<String> priceOptional) {
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -171,9 +176,50 @@ public class ItemController {
             // TODO: handle exception
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        String name = nameOptional.isPresent() ? nameOptional.get() : "";
-        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, name);
+        Pageable pageable = PageRequest.of(page - 1, 60);
+
+        // Case 0:
+        // String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
+        // name);
+
+        // Case 1: /products?min-price=20000000
+        // double minPrice = minPriceOptional.isPresent() ?
+        // Double.parseDouble(minPriceOptional.get()) : 0;
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // minPrice);
+
+        // Case 2: /products?max-price=20000000
+        // double maxPrice = maxPriceOptional.isPresent() ?
+        // Double.parseDouble(maxPriceOptional.get()) : 0;
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // maxPrice);
+
+        // Case 3: /products?factory=APPLE
+        // String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // factory);
+
+        // Case 4: /products?factory=APPLE,DELL,LENOVO
+        // List<String> factory = Arrays.asList(factoryOptional.get().split(","));
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // factory);
+
+        // Case 5: /products?price=15-toi-30-trieu
+        // String price = priceOptional.isPresent() ? priceOptional.get() : "";
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // price);
+
+        // Case 6: /products?price=10-toi-15-trieu,16-toi-30-trieu
+        List<String> price = Arrays.asList(priceOptional.get().split(","));
+        Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+                price);
+
+        // Case 7 (là case 6 nhưng tự viêt):
+        // String price = priceOptional.isPresent() ? priceOptional.get() : "";
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // price);
+
         List<Product> products = prs.getContent();
 
         model.addAttribute("products", products);
