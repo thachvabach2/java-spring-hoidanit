@@ -22,6 +22,7 @@ import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.service.ProductService;
 
 @Controller
@@ -157,19 +158,12 @@ public class ItemController {
 
     @GetMapping("/products")
     public String getProductsPage(Model model,
-            @RequestParam("page") Optional<String> pageOptional,
-            @RequestParam("name") Optional<String> nameOptional,
-            @RequestParam("min-price") Optional<String> minPriceOptional,
-            @RequestParam("max-price") Optional<String> maxPriceOptional,
-            @RequestParam("factory") Optional<String> factoryOptional,
-            @RequestParam("target") Optional<String> targetOptional,
-            @RequestParam("price") Optional<String> priceOptional,
-            @RequestParam("sort") Optional<String> sortOptional) {
+            ProductCriteriaDTO productCriteriaDTO) {
         int page = 1;
         try {
-            if (pageOptional.isPresent()) {
+            if (productCriteriaDTO.getPage().isPresent()) {
                 // convert String to int
-                page = Integer.parseInt(pageOptional.get());
+                page = Integer.parseInt(productCriteriaDTO.getPage().get());
             } else {
                 // page = 1
             }
@@ -180,10 +174,12 @@ public class ItemController {
 
         Pageable pageable = PageRequest.of(page - 1, 60);
 
+        Page<Product> prs = this.productService.fetchProducts(pageable);
+
         // Case 0:
-        String name = nameOptional.isPresent() ? nameOptional.get() : "";
-        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
-                name);
+        // String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
+        // name);
 
         // Case 1: /products?min-price=20000000
         // double minPrice = minPriceOptional.isPresent() ?
