@@ -42,6 +42,13 @@ public class ProductSpecs {
         };
     }
 
+    // Case 4:
+    public static Specification<Product> matchListTarget(List<String> factories) {
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.in(root.get(Product_.TARGET)).value(factories);
+        };
+    }
+
     // Case 5
     public static Specification<Product> matchPrice(double min, double max) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.and(
