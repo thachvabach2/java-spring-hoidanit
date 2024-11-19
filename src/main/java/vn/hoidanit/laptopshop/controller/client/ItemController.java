@@ -162,7 +162,9 @@ public class ItemController {
             @RequestParam("min-price") Optional<String> minPriceOptional,
             @RequestParam("max-price") Optional<String> maxPriceOptional,
             @RequestParam("factory") Optional<String> factoryOptional,
-            @RequestParam("price") Optional<String> priceOptional) {
+            @RequestParam("target") Optional<String> targetOptional,
+            @RequestParam("price") Optional<String> priceOptional,
+            @RequestParam("sort") Optional<String> sortOptional) {
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -179,9 +181,9 @@ public class ItemController {
         Pageable pageable = PageRequest.of(page - 1, 60);
 
         // Case 0:
-        // String name = nameOptional.isPresent() ? nameOptional.get() : "";
-        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
-        // name);
+        String name = nameOptional.isPresent() ? nameOptional.get() : "";
+        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
+                name);
 
         // Case 1: /products?min-price=20000000
         // double minPrice = minPriceOptional.isPresent() ?
@@ -211,9 +213,9 @@ public class ItemController {
         // price);
 
         // Case 6: /products?price=10-toi-15-trieu,16-toi-30-trieu
-        List<String> price = Arrays.asList(priceOptional.get().split(","));
-        Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
-                price);
+        // List<String> price = Arrays.asList(priceOptional.get().split(","));
+        // Page<Product> prs = this.productService.fetchProductWithSpec(pageable,
+        // price);
 
         // Case 7 (là case 6 nhưng tự viêt):
         // String price = priceOptional.isPresent() ? priceOptional.get() : "";

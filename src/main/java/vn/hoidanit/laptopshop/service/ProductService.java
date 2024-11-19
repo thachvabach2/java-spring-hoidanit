@@ -58,9 +58,9 @@ public class ProductService {
     }
 
     // Case 0:
-    // public Page<Product> fetchProductsWithSpec(Pageable pageable, String name) {
-    // return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
-    // }
+    public Page<Product> fetchProductsWithSpec(Pageable pageable, String name) {
+        return this.productRepository.findAll(ProductSpecs.nameLike(name), pageable);
+    }
 
     // Case 1:
     // public Page<Product> fetchProductWithSpec(Pageable pageable, double minPrice)
