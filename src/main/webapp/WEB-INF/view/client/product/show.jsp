@@ -32,6 +32,14 @@
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
 
+                <style>
+                    .page-link.disabled {
+                        color: var(--bs-pagination-disabled-color);
+                        pointer-events: none;
+                        background-color: var(--bs-pagination-disabled-bg);
+                    }
+                </style>
+
             </head>
 
             <body>
