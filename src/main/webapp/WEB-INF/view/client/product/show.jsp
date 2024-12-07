@@ -245,21 +245,24 @@
                                             <div class="pagination justify-content-center d-flex mt-5">
                                                 <li class="page-item">
                                                     <a class="page-link ${1 == currentPage ? 'btn disabled' : ''}"
-                                                        href="/products?page=${currentPage-1}" aria-label="Previous">
+                                                        href="/products?page=${currentPage-1}${queryString}"
+                                                        aria-label="Previous">
                                                         <span aria-hidden="true">&laquo;</span>
                                                     </a>
                                                 </li>
                                                 <c:forEach begin="0" end="${totalPages-1}" varStatus="loop">
                                                     <li
                                                         class="page-item ${currentPage == (loop.index+1) ? 'active' : ''}">
-                                                        <a class="page-link" href="/products?page=${loop.index+1}">
+                                                        <a class="page-link"
+                                                            href="/products?page=${loop.index+1}${queryString}">
                                                             ${loop.index+1}
                                                         </a>
                                                     </li>
                                                 </c:forEach>
                                                 <li class="page-item">
                                                     <a class="page-link ${currentPage == totalPages ? 'btn disabled' : ''}"
-                                                        href="/products?page=${currentPage+1}" aria-label="Next">
+                                                        href="/products?page=${currentPage+1}${queryString}"
+                                                        aria-label="Next">
                                                         <span aria-hidden="true">&raquo;</span>
                                                     </a>
                                                 </li>

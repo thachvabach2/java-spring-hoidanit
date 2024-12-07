@@ -81,54 +81,9 @@ public class ProductService {
         return this.productRepository.findAll(combinedSpec, pageable);
     }
 
-    // Case 1:
-    // public Page<Product> fetchProductWithSpec(Pageable pageable, double minPrice)
-    // {
-    // return this.productRepository.findAll(ProductSpecs.minPrice(minPrice),
-    // pageable);
-    // }
-
-    // Case 2:
-    // public Page<Product> fetchProductWithSpec(Pageable pageable, double maxPrice)
-    // {
-    // return this.productRepository.findAll(ProductSpecs.maxPrice(maxPrice),
-    // pageable);
-    // }
-
-    // Case 3:
-    // public Page<Product> fetchProductWithSpec(Pageable pageable, String factory)
-    // {
-    // return this.productRepository.findAll(ProductSpecs.matchFactory(factory),
-    // pageable);
-    // }
-
-    // Case 4:
-    // public Page<Product> fetchProductWithSpec(Pageable pageable, List<String>
-    // factory) {
-    // return this.productRepository.findAll(ProductSpecs.matchListFactory(factory),
-    // pageable);
-    // }
-
-    // Case 5:
-    // public Page<Product> fetchProductWithSpec(Pageable pageable, String price) {
-    // if (price.equals("10-toi-15-trieu")) {
-    // double min = 10000000;
-    // double max = 15000000;
-    // return this.productRepository.findAll(ProductSpecs.matchPrice(min, max),
-    // pageable);
-    // } else if (price.equals("15-toi-30-trieu")) {
-    // double min = 15000000;
-    // double max = 30000000;
-    // return this.productRepository.findAll(ProductSpecs.matchPrice(min, max),
-    // pageable);
-    // } else {
-    // return this.productRepository.findAll(pageable);
-    // }
-    // }
-
     // Case 6:
     public Specification<Product> buildPriceSpecification(List<String> price) {
-        Specification<Product> combinedSpec = (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+        Specification<Product> combinedSpec = Specification.where(null);
 
         for (String p : price) {
             double min = 0;
@@ -162,22 +117,6 @@ public class ProductService {
 
         return combinedSpec;
     }
-
-    // Case 7 (là case 6 nhưng tự viêt):
-    // public Page<Product> fetchProductWithSpec(Pageable pageable, String price) {
-    // String[] priceAbouts = price.split(",");
-    // List<List<String>> listPriceAbouts = new ArrayList<List<String>>();
-    // for (String priceAbout : priceAbouts) {
-    // String[] handlePriceAbout = priceAbout.split("-");
-    // String[] priceAboutOnlyPrice = { handlePriceAbout[0] + "000000",
-    // handlePriceAbout[2] + "000000" };
-    // List<String> listPriceAboutOnlyPrice = Arrays.asList(priceAboutOnlyPrice);
-    // listPriceAbouts.add(listPriceAboutOnlyPrice);
-    // }
-    // return
-    // this.productRepository.findAll(ProductSpecs.pricesAbout(listPriceAbouts),
-    // pageable);
-    // }
 
     public Optional<Product> fetchProductById(long id) {
         return this.productRepository.findById(id);
